@@ -32,6 +32,8 @@ export class BitMapColorPicker extends React.Component {
             pickerHeight: null,
             pickerX: null,
             pickerY: null,
+            lastPickerX: null,
+            lastPickerY: null
         };
         if (props.oldColor) {
             state.color = tinycolor(props.oldColor).toHexString();
@@ -195,11 +197,42 @@ export class BitMapColorPicker extends React.Component {
             y
         }, evt, state, resType) => {
             let pickerX = parseInt(x - this._pageX, 10);
-            pickerX = pickerX > this.state.pickerWidth ? this.state.pickerWidth - 1 : pickerX;
-            pickerX = pickerX < 0 ? 0 : pickerX;
             let pickerY = parseInt(y - this._pageY, 10);
-            pickerY = pickerY > this.state.pickerHeight ? this.state.pickerHeight - 1 : pickerY;
-            pickerY = pickerY < 0 ? 0 : pickerY;
+
+            const radius = this.state.pickerWidth / 2
+            //0 < pickerX < width
+            //0 < pickerY < with
+            let xFromOrigin = pickerX - radius
+            let yFromOrigin = pickerY - radius
+
+            if(!(Math.sqrt(xFromOrigin*xFromOrigin + yFromOrigin*yFromOrigin) < radius-10) ){
+              if(this.state.lastPickerX && this.state.lastPickerY){
+                pickerX = this.state.lastPickerX;
+                pickerY = this.state.lastPickerY;
+              }
+              else{
+                pickerX = radius;
+                pickerY = radius;
+              }
+            }
+
+            if(this.props.isMobile){
+              pickerX += 2;
+              pickerY -= 23;
+            }
+            this.setState({lastPickerX: pickerX, lastPickerY: pickerY})
+
+            //-pickerWidth/2 < pickerX - pickerWidth < width-width/2
+
+
+
+
+            // pickerX = pickerX > this.state.pickerWidth ? this.state.pickerWidth - 1 : pickerX;
+            // pickerX = pickerX < 0 ? 0 : pickerX;
+            // pickerY = pickerY > this.state.pickerHeight ? this.state.pickerHeight - 1 : pickerY;
+            // pickerY = pickerY < 0 ? 0 : pickerY;
+
+
             this._onColorChange({
                 pickerX,
                 pickerY,
