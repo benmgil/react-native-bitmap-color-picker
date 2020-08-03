@@ -216,10 +216,15 @@ export class BitMapColorPicker extends React.Component {
               }
             }
 
-            if(this.props.isMobile){
-              pickerX += 5000;
+            if(this.props.isMobile == "a"){
+              pickerX += 2;
               pickerY -= 23;
             }
+            else if (this.props.isMobile == "i"){
+                pickerX += 5000;
+                pickerY -= 23;
+            }
+            
             this.setState({lastPickerX: pickerX, lastPickerY: pickerY})
 
             //-pickerWidth/2 < pickerX - pickerWidth < width-width/2
