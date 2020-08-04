@@ -221,8 +221,8 @@ export class BitMapColorPicker extends React.Component {
               pickerY -= 23;
             }
             else if (this.props.isMobile == "i"){
-                pickerX += 5000;
-                pickerY -= 23;
+                //pickerX += 5000;
+                //pickerY -= 23;
             }
             
             this.setState({lastPickerX: pickerX, lastPickerY: pickerY})
